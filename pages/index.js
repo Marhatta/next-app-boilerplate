@@ -3,7 +3,17 @@ import axios from "axios";
 
 import Dummy from "../components/Dummy";
 
-//Runs on every request
+/**
+    @author [vishal marhatta]
+    @see https://github.com/Marhatta/next-app-boilerplate
+    @function Home
+    @description Gets the list of books from from server using getServerSideProps
+    @returns jsx
+    @version 1.1.0
+    @todo We want to do something that we don't know yet
+ */
+
+/** Runs on every request*/
 export const getServerSideProps = async () => {
   const res = await axios.get(
     "https://thawing-inlet-62428.herokuapp.com/api/books"

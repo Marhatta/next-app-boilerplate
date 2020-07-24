@@ -1,9 +1,17 @@
 import Link from "next/link";
 import {connect} from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
-import PropTypes from 'prop-types'; 
+import PropTypes, { object } from 'prop-types';
 
-const NewPage = ({ getTodos, todos }) => {
+/**
+    @author [vishal marhatta]
+    @see https://github.com/Marhatta/next-app-boilerplate
+    @method NewPage
+    @description Shows a list of todos when Get todo list button is pressed
+    @returns jsx with a list of todos
+ */
+
+const NewPage = ({ getTodos,todos }) => {
   return (
     <div>
       <button onClick={() => getTodos()}>Get todo list</button>
@@ -21,8 +29,9 @@ const NewPage = ({ getTodos, todos }) => {
 };
 
 NewPage.propTypes = {
-    getTodos:PropTypes.func,
-    todo:PropTypes.arrayOf(PropTypes.object)
+    /**Prop type checking */
+    getTodos:PropTypes.func.isRequired,
+    todos:PropTypes.arrayOf(PropTypes.object)
 }
 
 const mapStateToProps = (state) => {
