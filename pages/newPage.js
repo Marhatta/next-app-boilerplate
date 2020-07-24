@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {connect} from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 /**
     @author [vishal marhatta]
