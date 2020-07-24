@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {connect} from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
+import PropTypes from 'prop-types'; 
 
 const NewPage = ({ getTodos, todos }) => {
   return (
@@ -18,6 +19,11 @@ const NewPage = ({ getTodos, todos }) => {
     </div>
   );
 };
+
+NewPage.propTypes = {
+    getTodos:PropTypes.func,
+    todo:PropTypes.arrayOf(PropTypes.object)
+}
 
 const mapStateToProps = (state) => {
   return {
