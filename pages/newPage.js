@@ -1,10 +1,28 @@
-import Link from 'next/link'
+import Link from "next/link";
+import {connect} from "react-redux";
+import { getTodos } from "../redux/app/app.actions";
 
-export default function NewPage(){
-    return (
-        <div>
-        <h1>this is a new page</h1>
-        <Link href='/'>Go to home</Link>
-        </div>
-    );
-}
+const NewPage = ({ getTodos, todos }) => {
+  return (
+    <div>
+      <button onClick={() => getTodos()}>Get todo list</button>
+      <h1>this is a new page</h1>
+      <Link href="/">
+        <a>Go to home</a>
+      </Link>
+      <div>
+        {todos.map((todo) => {
+          return <h2 key={todo.id}>{todo.title}</h2>;
+        })}
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    todos: state.app.todos,
+  };
+};
+
+export default connect(mapStateToProps, { getTodos })(NewPage);
