@@ -1,8 +1,14 @@
+import React, { useEffect } from 'react';
 import Link from "next/link";
 import axios from "axios";
 import PropTypes from "prop-types";
 
 import Dummy from "../components/Dummy";
+
+
+
+
+
 
 /**
     @author [vishal marhatta]
@@ -28,6 +34,20 @@ export const getServerSideProps = async () => {
 };
 
 const Home = ({ books }) => {
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.ready.then(reg => {
+        console.log("sw is ready!")
+      }).catch(err =>{
+        console.log("sw is not ready")
+      })
+  } else {
+      console.log("Service worker not supported");
+  }
+  }, [])
+
+
   return (
     <div>
       <h1>This is the index page</h1>
