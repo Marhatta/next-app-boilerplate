@@ -1,5 +1,16 @@
 'use strict'
 
+
+
+self.addEventListener("install", (event) => {
+  console.log("[Service Worker] Service worker registered...");
+});
+
+self.addEventListener("activate", function (event) {
+  console.log("[Service Worker] Activating Service Worker ....",event);
+});
+
+
 self.addEventListener('push', function (event) {
   const data = JSON.parse(event.data.text())
   event.waitUntil(
