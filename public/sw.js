@@ -95,7 +95,7 @@ define("./sw.js",['./workbox-b90066a8'], function (workbox) { 'use strict';
   * See https://goo.gl/2aRDsh
   */
 
-  importScripts();
+  importScripts("worker-development.js");
   workbox.skipWaiting();
   workbox.clientsClaim();
   /**
@@ -109,7 +109,7 @@ define("./sw.js",['./workbox-b90066a8'], function (workbox) { 'use strict';
     "revision": "6b33376f91420f477651d695b7e4d3f0"
   }, {
     "url": "/_next/static/runtime/main.js",
-    "revision": "388974746659e3b69bdff22f337af1b9"
+    "revision": "364bea76acbf1b869d137c971fb95908"
   }, {
     "url": "/_next/static/runtime/polyfills.js",
     "revision": "7d777dff3dc41f9b32777073d94aeb66"
@@ -118,7 +118,7 @@ define("./sw.js",['./workbox-b90066a8'], function (workbox) { 'use strict';
     "revision": "0620b7c58e0f6f6643d1dd663a87864c"
   }, {
     "url": "/_next/static/runtime/webpack.js",
-    "revision": "105b6c7c1c64e86d1e5214db4ffa17d3"
+    "revision": "e8bbaead6ae2626d59ce5abcddb0f8cf"
   }], {
     "ignoreURLParametersMatching": [/ts/]
   });
