@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- 12
+install:
+- npm install
+script:
+- npm run build
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  api_key:
+    secure: Zk5HT+2qrbuLtPWnLSp8LoZG7H5/Ttk+m9IztXPjueGrHfGs+rpazEjM46ayLtK9/D2BHhNnYWoyK1E4zkM7PeDHqfrna8LH4IpEu1ydc3HhVCQfioWHKev8zeF429ccLSwq+BU27qOpNp8nFkGdFPKk/zNvSichuwC5k2kwvM4q2WG8YnaBIE+8K5LYNBFoGuTghB6JW9cSkt046TmTrGScxPvi8O0jdPsp4KDMN9XrZbmaUFi3u+iKTNF0fMHFVRL4+Pdz6bsNF8B6+Cs1LFqop3VUe1C7C5KHJyW2YUgIjv+/OV86l7oVWALoivM/c4BX5nAjwlnm7ohEEBjTmfr4dwVl9sbbj8nNM/o0f5MNBtyzZLscsLZV/vO9jbGJ2Y/ckT0udpexX7rH6CEwolVNpB0fr8oIV0zrWSYBa2Niz9ATED1kChESCUGHKtAwIg4M/60ZJnRdBV50nx/UU3+6x+GbLviBfkVssTZKdIe5WmRRtB4fCL0bJ6fAPHzDKm80Yquy44vZzB50Q/GQYcQKorIjibyv7GsiIyOYVNHOmYqNcpr47vg1W9VP8ebC6Y7FkyQKPYa4P1XTOuMvWQndMadsgMJGWNXDYfzs3Ztdi7D+D7SznNJlGDUT7s9l4NxoWpD3Jgh/YIzTwfTFV0+2SDNpeyfkOqsw6aECsDE=
+  app:
+    master: next-app-boilerplate
