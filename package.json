@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_ENV=production next build",
-    "start": "NODE_ENV=production next start -p $PORT"
+    "build": "next build",
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "axios": "^0.19.2",
