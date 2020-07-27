@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {memo} from 'react';
 import {connect} from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
 import PropTypes from 'prop-types';

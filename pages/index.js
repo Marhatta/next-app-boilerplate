@@ -1,5 +1,6 @@
 import Link from "next/link";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 import Dummy from "../components/Dummy";
 
@@ -40,5 +41,10 @@ const Home = ({ books }) => {
     </div>
   );
 };
+
+/** Prop type checking */
+Home.propTypes = {
+  books:PropTypes.arrayOf(PropTypes.object)
+}
 
 export default Home;
