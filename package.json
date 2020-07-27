@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production next start -p $PORT"
+    "start": "NODE_ENV=production next start -p $PORT",
+    "deploy":"next build && next export"
   },
   "dependencies": {
     "axios": "^0.19.2",
