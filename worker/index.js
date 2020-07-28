@@ -1,6 +1,5 @@
 // 'use strict'
 
-
 const CACHE_VERSION = 27;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
@@ -11,6 +10,15 @@ const urlsToCache = ["/",
                        "/index",
                        "/newPage" ];
 
+
+
+// indexdb caching...                  
+
+(function dbOperation(){
+ console.log("running index db ...");
+ let req =  self.indexedDB.open("mytestdb")
+ console.log("indexdb reqObj", req);
+})()
 
 self.addEventListener("install", (event) => {
   console.log("Service worker registered");
