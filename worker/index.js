@@ -5,11 +5,7 @@ const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
 
-const urlsToCache = ["/", 
-                       "/offline",
-                       "/index",
-                       "/newPage" ];
-
+const urlsToCache = ["/", "/offline", "/index", "/newPage"];
 
 
 // indexdb caching...                  
@@ -29,7 +25,6 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", function (event) {
-
   console.log("[Service Worker] Activating Service Worker ....", event);
 
   // add something to index db
@@ -54,17 +49,21 @@ self.addEventListener("fetch", (event) => {
   // if (!(event.request.url.indexOf("http") === 0)) {
   //   //skip request
   //   return null;
-  // }  
+  // }
 
- let reqUrl = event.request.url;
- console.log("REQ FROM SW :->URL :",reqUrl)
-  let isApiReq =  event.request.url === "https://jsonplaceholder.typicode.com/todos";
+  let reqUrl = event.request.url;
+  console.log("REQ FROM SW :->URL :", reqUrl);
+  let isApiReq =
+    event.request.url === "https://jsonplaceholder.typicode.com/todos";
 
-  if(isApiReq){
+  if (isApiReq) {
     event.respondWith(
       fetch(event.request)
-      .then(function (res) {
-          console.log("CACHING API DATA  ...TO LOCAL FROM NETWORK" ,event.request.url );
+        .then(function (res) {
+          console.log(
+            "CACHING API DATA  ...TO LOCAL FROM NETWORK",
+            event.request.url
+          );
           return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
             cache.put(event.request.url, res.clone());
             // update the cache and return the network res;
@@ -153,10 +152,10 @@ self.addEventListener("push", function (e) {
   let payload = e.data
     ? JSON.parse(e.data.text())
     : {
-      title: "default Title for noitification",
-      body: "default -server push notification body",
-      //  icon: "/images/icons/icon-96x96.png",
-    };
+        title: "default Title for noitification",
+        body: "default -server push notification body",
+        //  icon: "/images/icons/icon-96x96.png",
+      };
 
   let options = {
     body: payload.body,

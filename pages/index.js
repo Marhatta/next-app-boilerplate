@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import PropTypes from "prop-types";
 
+import Layout from "../components/Layout";
 import Dummy from "../components/Dummy";
 
 /**
@@ -29,23 +30,9 @@ export const getServerSideProps = async () => {
 };
 
 const Home = ({ books }) => {
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.ready
-        .then((reg) => {
-          console.log("sw is ready!");
-        })
-        .catch((err) => {
-          console.log("sw is not ready");
-        });
-    } else {
-      console.log("Service worker not supported");
-    }
-  }, []);
-
   return (
-    <div>
-      <h1>This is the index page</h1>
+    <Layout>
+      <h1 className="alert alert-primary">This is the index page</h1>
       <Dummy />
       <Link href="/newPage">
         <a>Go to new page</a>
@@ -53,7 +40,7 @@ const Home = ({ books }) => {
       {books.map((book) => {
         return <h2 key={book._id}>{book.name}</h2>;
       })}
-    </div>
+    </Layout>
   );
 };
 

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+
+import Layout from "../components/Layout";
 
 /**
     @author [vishal marhatta]
@@ -11,28 +13,28 @@ import PropTypes from 'prop-types';
     @returns jsx with a list of todos
  */
 
-const NewPage = ({ getTodos,todos }) => {
+const NewPage = ({ getTodos, todos }) => {
   return (
-    <div>
-      <button onClick={() => getTodos()}>Get todo list</button>
-      <h1>this is a new page</h1>
+    <Layout>
+      <h1 className="alert alert-danger">this is a new page</h1>
       <Link href="/">
         <a>Go to home</a>
       </Link>
+      <button className="btn btn-primary mx-1" onClick={() => getTodos()}>Get todo list</button>
       <div>
         {todos.map((todo) => {
-          return <h2 key={todo.id}>{todo.title}</h2>;
+          return <li key={todo.id}>{todo.title}</li>;
         })}
       </div>
-    </div>
+    </Layout>
   );
 };
 
 NewPage.propTypes = {
-    /**Prop type checking */
-    getTodos:PropTypes.func.isRequired,
-    todos:PropTypes.arrayOf(PropTypes.object)
-}
+  /**Prop type checking */
+  getTodos: PropTypes.func.isRequired,
+  todos: PropTypes.arrayOf(PropTypes.object),
+};
 
 const mapStateToProps = (state) => {
   return {

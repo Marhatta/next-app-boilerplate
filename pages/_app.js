@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import App from "next/app";
+/**import bootstrap css globally */
+import "bootstrap/dist/css/bootstrap.min.css";
 import { wrapper } from "../redux/store";
 
 class MyApp extends App {
@@ -17,9 +19,23 @@ class MyApp extends App {
     };
   };
 
+  componentDidMount() {
+    /**Registering service worker */
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.ready
+        .then((reg) => {
+          console.log("sw is ready!");
+        })
+        .catch((err) => {
+          console.log("sw is not ready");
+        });
+    } else {
+      console.log("Service worker not supported");
+    }
+  }
+
   render() {
     const { Component, pageProps } = this.props;
-
     return <Component {...pageProps} />;
   }
 }
