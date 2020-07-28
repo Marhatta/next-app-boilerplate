@@ -1,7 +1,7 @@
 // 'use strict'
 
 
-const CACHE_VERSION = 26;
+const CACHE_VERSION = 27;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -65,8 +65,10 @@ self.addEventListener("fetch", (event) => {
         // }
       })
       .catch(function (err) {
-        console.log("NETWORK FAIL -> OFFLINE CACHE");
-        return caches.match("/offline").then((res) => {
+
+        console.log("you are offline with req to todos api===> ")
+        console.log(" NETWORK FAIL API -> OFFLINE CACHE ");
+        return caches.match(event.request).then((res) => {
           console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
           if (res) {
             return res;
@@ -94,7 +96,9 @@ self.addEventListener("fetch", (event) => {
         // }
       })
       .catch(function (err) {
-        console.log("NETWORK FAIL -> OFFLINE CACHE");
+        console.log("NETWORK FAIL GENERAL -> OFFLINE CACHE");
+
+        
         return caches.match(event.request).then((res) => {
           console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
           if (res) {
