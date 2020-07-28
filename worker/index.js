@@ -1,66 +1,16 @@
 // 'use strict'
 
 
-
-// self.addEventListener("install", (event) => {
-//   console.log("[Service Worker] Service worker registered...");
-// });
-
-// self.addEventListener("activate", function (event) {
-//   console.log("[Service Worker] Activating Service Worker ....",event);
-// });
-
-
-// self.addEventListener('push', function (event) {
-//   const data = JSON.parse(event.data.text())
-//   event.waitUntil(
-//     registration.showNotification(data.title, {
-//       body: data.message,
-//       icon: '/icons/android-chrome-192x192.png'
-//     })
-//   )
-// })
-
-// self.addEventListener('notificationclick', function (event) {
-//   event.notification.close()
-//   event.waitUntil(
-//     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
-//       if (clientList.length > 0) {
-//         let client = clientList[0]
-//         for (let i = 0; i < clientList.length; i++) {
-//           if (clientList[i].focused) {
-//             client = clientList[i]
-//           }
-//         }
-//         return client.focus()
-//       }
-//       return clients.openWindow('/')
-//     })
-//   )
-// })
-
-// // self.addEventListener('pushsubscriptionchange', function(event) {
-// //   event.waitUntil(
-// //       Promise.all([
-// //           Promise.resolve(event.oldSubscription ? deleteSubscription(event.oldSubscription) : true),
-// //           Promise.resolve(event.newSubscription ? event.newSubscription : subscribePush(registration))
-// //               .then(function(sub) { return saveSubscription(sub) })
-// //       ])
-// //   )
-// // })
-
-
-
-
 const CACHE_VERSION = 26;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
+
 const urlsToCache = ["/", 
-              
-                      "/index", 
-                       "/newPage"
-                      ];
+                       "/offline",
+                       "/index",
+                       "/newPage" ];
+
 
 self.addEventListener("install", (event) => {
   console.log("Service worker registered");
@@ -71,6 +21,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", function (event) {
+  
   console.log("[Service Worker] Activating Service Worker ....", event);
 
   // add something to index db
@@ -99,7 +50,7 @@ self.addEventListener("fetch", (event) => {
 
  let reqUrl = event.request.url;
  console.log("REQ FROM SW :->URL :",reqUrl)
-  let isApiReq =  event.request.url === "http://localhost:3000/api/v2/users";
+  let isApiReq =  event.request.url === "https://jsonplaceholder.typicode.com/todos";
 
   if(isApiReq){
     event.respondWith(
