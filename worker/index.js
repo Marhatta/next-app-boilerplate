@@ -1,16 +1,11 @@
-// 'use strict'
-
+"use strict";
 
 const CACHE_VERSION = 26;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
 
-const urlsToCache = ["/", 
-                       "/offline",
-                       "/index",
-                       "/newPage" ];
-
+const urlsToCache = ["/", "/offline", "/index", "/newPage"];
 
 self.addEventListener("install", (event) => {
   console.log("Service worker registered");
@@ -21,7 +16,6 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", function (event) {
-
   console.log("[Service Worker] Activating Service Worker ....", event);
 
   // add something to index db
@@ -46,69 +40,72 @@ self.addEventListener("fetch", (event) => {
   // if (!(event.request.url.indexOf("http") === 0)) {
   //   //skip request
   //   return null;
-  // }  
+  // }
 
- let reqUrl = event.request.url;
- console.log("REQ FROM SW :->URL :",reqUrl)
-  let isApiReq =  event.request.url === "https://jsonplaceholder.typicode.com/todos";
+  let reqUrl = event.request.url;
+  console.log("REQ FROM SW :->URL :", reqUrl);
+  let isApiReq =
+    event.request.url === "https://jsonplaceholder.typicode.com/todos";
 
-  if(isApiReq){
+  if (isApiReq) {
     event.respondWith(
       fetch(event.request)
-      .then(function (res) {
-          console.log("CACHING API DATA  ...TO LOCAL FROM NETWORK" ,event.request.url );
+        .then(function (res) {
+          console.log(
+            "CACHING API DATA  ...TO LOCAL FROM NETWORK",
+            event.request.url
+          );
           return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
             cache.put(event.request.url, res.clone());
             // update the cache and return the network res;
             return res;
           });
-        // }
-      })
-      .catch(function (err) {
-        console.log("NETWORK FAIL -> OFFLINE CACHE");
-        return caches.match("/offline").then((res) => {
-          console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
-          if (res) {
-            return res;
-          } else {
-            console.log("No offline chache Res!");
-            return JSON.stringify({ message: "you are offline and no res data in cache" });
-          }
-        });
-       }
-      )
-    )
-
-  }else{ 
-
-  // NETWORK FIRST CACHE STRATERGY
-  event.respondWith(
-    fetch(event.request)
-      .then(function (res) {
-          console.log("CACHING ...TO LOCAL FROM NETWORK" ,event.request.url );
+          // }
+        })
+        .catch(function (err) {
+          console.log("NETWORK FAIL -> OFFLINE CACHE");
+          return caches.match("/offline").then((res) => {
+            console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
+            if (res) {
+              return res;
+            } else {
+              console.log("No offline chache Res!");
+              return JSON.stringify({
+                message: "you are offline and no res data in cache",
+              });
+            }
+          });
+        })
+    );
+  } else {
+    // NETWORK FIRST CACHE STRATERGY
+    event.respondWith(
+      fetch(event.request)
+        .then(function (res) {
+          console.log("CACHING ...TO LOCAL FROM NETWORK", event.request.url);
           return caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
             cache.put(event.request.url, res.clone());
             // update the cache and return the network res;
             return res;
           });
-        // }
-      })
-      .catch(function (err) {
-        console.log("NETWORK FAIL -> OFFLINE CACHE");
-        return caches.match(event.request).then((res) => {
-          console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
-          if (res) {
-            return res;
-          } else {
-            console.log("No offline chache Res!");
-            return caches.match("/offline").then((res) => { return res} );
-          }
-        });
-      })
-  );
-
-}
-
+          // }
+        })
+        .catch(function (err) {
+          console.log("NETWORK FAIL -> OFFLINE CACHE");
+          return caches.match(event.request).then((res) => {
+            console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
+            if (res) {
+              return res;
+            } else {
+              console.log("No offline chache Res!");
+              return caches.match("/offline").then((res) => {
+                return res;
+              });
+            }
+          });
+        })
+    );
+  }
 });
 
 // on notification click
@@ -141,10 +138,10 @@ self.addEventListener("push", function (e) {
   let payload = e.data
     ? JSON.parse(e.data.text())
     : {
-      title: "default Title for noitification",
-      body: "default -server push notification body",
-      //  icon: "/images/icons/icon-96x96.png",
-    };
+        title: "default Title for noitification",
+        body: "default -server push notification body",
+        //  icon: "/images/icons/icon-96x96.png",
+      };
 
   let options = {
     body: payload.body,

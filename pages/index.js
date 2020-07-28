@@ -44,8 +44,8 @@ const Home = ({ books }) => {
   }, []);
 
   return (
-    <div>
-      <h1>This is the index page</h1>
+    <div className="container">
+      <h1 className="alert alert-primary">This is the index page</h1>
       <Dummy />
       <Link href="/newPage">
         <a>Go to new page</a>

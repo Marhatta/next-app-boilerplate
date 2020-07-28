@@ -1,5 +1,7 @@
 import React from "react";
 import App from "next/app";
+/**import bootstrap css globally */
+import "bootstrap/dist/css/bootstrap.min.css";
 import { wrapper } from "../redux/store";
 
 class MyApp extends App {
