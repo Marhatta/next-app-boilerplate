@@ -1,7 +1,5 @@
 'use strict'
 
-
-
 self.addEventListener("install", (event) => {
   console.log("[Service Worker] Service worker registered...");
 });
