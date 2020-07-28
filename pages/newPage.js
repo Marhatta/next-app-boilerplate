@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { getTodos } from "../redux/app/app.actions";
 import PropTypes from "prop-types";
 
+import Layout from "../components/Layout";
+
 /**
     @author [vishal marhatta]
     @see https://github.com/Marhatta/next-app-boilerplate
@@ -13,7 +15,7 @@ import PropTypes from "prop-types";
 
 const NewPage = ({ getTodos, todos }) => {
   return (
-    <div className="container">
+    <Layout>
       <h1 className="alert alert-danger">this is a new page</h1>
       <Link href="/">
         <a>Go to home</a>
@@ -24,7 +26,7 @@ const NewPage = ({ getTodos, todos }) => {
           return <li key={todo.id}>{todo.title}</li>;
         })}
       </div>
-    </div>
+    </Layout>
   );
 };
 
