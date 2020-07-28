@@ -21,7 +21,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", function (event) {
-  
+
   console.log("[Service Worker] Activating Service Worker ....", event);
 
   // add something to index db
