@@ -1,6 +1,7 @@
 // 'use strict'
+self.importScripts('idb.js');
 
-const CACHE_VERSION = 29;
+const CACHE_VERSION = 30;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -12,8 +13,7 @@ const urlsToCache = ["/", "/offline", "/index", "/newPage"];
 
 (function dbOperation(){
  console.log("running index db ...");
- let req =  self.indexedDB.open("mytestdb")
- console.log("indexdb reqObj", req);
+  let req =  self.indexedDB.open("mytestdb")
 })()
 
 self.addEventListener("install", (event) => {
@@ -60,15 +60,25 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then(function (res) {
-          console.log(
-            "CACHING API DATA  ...TO LOCAL FROM NETWORK",
-            event.request.url
-          );
-          return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
-            cache.put(event.request.url, res.clone());
-            // update the cache and return the network res;
-            return res;
-          });
+
+          if (res.status == 200) {
+            res.json().then(data => {
+                console.log("deep clone obj", data);
+                let INDEXDB_STORE = 'mysite-indexdb-v1';
+                writeData(INDEXDB_STORE, { req: event.request.url, data: data });
+            })
+        }
+
+        return res;
+          // console.log(
+          //   "CACHING API DATA  ...TO LOCAL FROM NETWORK",
+          //   event.request.url
+          // );
+          // return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
+          //   cache.put(event.request.url, res.clone());
+          //   // update the cache and return the network res;
+          //   return res;
+          // });
         // }
       })
       .catch(function (err) {
