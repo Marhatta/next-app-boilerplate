@@ -7,6 +7,8 @@ export const getTodos = () => {
 };
 
 export const getTodosSuccess = (todos) => {
+  
+  console.log("i am in todo success" , todos)
   return {
     type: GET_TODOS_SUCCESS,
     payload: todos,
