@@ -22,6 +22,11 @@ export default class extends Document {
           <meta name='theme-color' content='#FFFFFF' />
           <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover' />
           
+          <script>
+          
+          {console.log("we are inside the head tag ")}
+          </script>
+
           <link rel='apple-touch-icon' sizes='180x180' href='/icons/apple-touch-icon.png' />
           <link rel='manifest' href='/manifest.json' />
           <link rel='shortcut icon' href='/icons/favicon.ico' />
