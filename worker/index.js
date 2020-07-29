@@ -13,6 +13,7 @@ const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
 const urlsToCache = ["/", "/offline", "/index", "/newPage"];
 
 
+
 // indexdb caching...                  
 let db
 (function dbOperation(){
