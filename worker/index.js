@@ -3,7 +3,7 @@
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 
 
-const CACHE_VERSION = 61;
+const CACHE_VERSION = 63;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -67,7 +67,8 @@ self.addEventListener("fetch", (event) => {
 
   console.log("REQ FROM SW :->URL :", reqUrl);
   let isApiReq =
-    event.request.url === "https://jsonplaceholder.typicode.com/todos";
+    event.request.url === "https://jsonplaceholder.typicode.com/todos" 
+    || event.request.url === "https://jsonplaceholder.typicode.com/users";
 
   if (isApiReq) {
     event.respondWith(
@@ -95,7 +96,9 @@ self.addEventListener("fetch", (event) => {
           // return from indexdb store
           return db.get("apistore", event.request.url).then((res) => {
             console.log("================", res);
-            return res.body;
+            return new Response(JSON.stringify(res),  { "status" : 200 , "statusText" : "MyCustomResponse!" })
+
+            // return res.body;
           });
         })
     );

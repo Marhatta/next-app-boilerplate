@@ -14,6 +14,15 @@ import Layout from "../components/Layout";
  */
 
 const NewPage = ({ getTodos, todos }) => {
+
+ const getUsersData = () =>{
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+  .then(response => response.json())
+  .then(json => console.log("we have user data",json))
+
+  }
+
   return (
     <Layout>
       <h1 className="alert alert-danger">this is a new page</h1>
@@ -21,6 +30,9 @@ const NewPage = ({ getTodos, todos }) => {
         <a>Go to home</a>
       </Link>
       <button className="btn btn-primary mx-1" onClick={() => getTodos()}>Get todo list</button>
+     
+     <button onClick={() => getUsersData() }>Get user data</button>
+     
       <div>
         {todos.map((todo) => {
           return <li key={todo.id}>{todo.title}</li>;
