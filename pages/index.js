@@ -37,6 +37,11 @@ const Home = ({ books }) => {
       <Link href="/newPage">
         <a>Go to new page</a>
       </Link>
+      <br/>
+      <Link href="/user">
+        <a>Go to user page</a>
+      </Link>
+
       {books.map((book) => {
         return <h2 key={book._id}>{book.name}</h2>;
       })}
