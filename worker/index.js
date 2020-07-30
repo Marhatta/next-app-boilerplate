@@ -1,9 +1,8 @@
-'use strict'
+"use strict";
 
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 
-
-const CACHE_VERSION = 64;
+const CACHE_VERSION = 73;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -67,8 +66,8 @@ self.addEventListener("fetch", (event) => {
 
   console.log("REQ FROM SW :->URL :", reqUrl);
   let isApiReq =
-    event.request.url === "https://jsonplaceholder.typicode.com/todos" 
-    || event.request.url === "https://jsonplaceholder.typicode.com/users";
+    event.request.url === "https://jsonplaceholder.typicode.com/todos" ||
+    event.request.url === "https://jsonplaceholder.typicode.com/users";
 
   if (isApiReq) {
     event.respondWith(
@@ -96,7 +95,7 @@ self.addEventListener("fetch", (event) => {
           // return from indexdb store
           return db.get("apistore", event.request.url).then((res) => {
             console.log("================", res);
-            return new Response(JSON.stringify(res.body),  { "status" : 200 , "statusText" : "MyCustomResponse!" })
+            return new Response(JSON.stringify(res.body));
 
             // return res.body;
           });
