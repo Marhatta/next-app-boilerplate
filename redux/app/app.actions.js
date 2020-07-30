@@ -18,6 +18,6 @@ export const getTodosSuccess = (todos) => {
 export const getTodosFailure = (error) => {
   return {
     type: GET_TODOS_FAILURE,
-    payload: error.response.data,
+    payload: error
   };
 };

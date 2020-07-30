@@ -5,7 +5,7 @@ import { openDB, deleteDB, wrap, unwrap } from "idb";
 
 var d = new Date();
 
-const CACHE_VERSION = 51;
+const CACHE_VERSION = 60;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -90,13 +90,13 @@ self.addEventListener("fetch", (event) => {
 
           return res;
         })
-        .catch(function (err) {
+        .catch(async function (err) {
           console.log("return from offline indexdb api===> ");
           console.log(" NETWORK FAIL API -> OFFLINE CACHE ");
 
           // return from indexdb store
-          db.get("apistore", event.request.url).then((res) => {
-            console.log(res);
+          return db.get("apistore", event.request.url).then((res) => {
+            console.log("================", res);
             return res.body;
           });
         })
