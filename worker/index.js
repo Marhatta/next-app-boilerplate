@@ -1,11 +1,9 @@
-// 'use strict'
-//  self.importScripts('./idb.js');
-// if (typeof idb === "undefined") self.importScripts("https://unpkg.com/idb@4.0.5/build/iife/index-min.js");
+'use strict'
+
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 
-var d = new Date();
 
-const CACHE_VERSION = 60;
+const CACHE_VERSION = 61;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -130,64 +128,4 @@ self.addEventListener("fetch", (event) => {
         })
     );
   }
-});
-
-// on notification click
-self.addEventListener("notificationclick", (e) => {
-  let notification = e.notification;
-  let action = e.action;
-
-  if (action === "open") {
-    let url = location.origin;
-    clients.openWindow(url);
-    notification.close();
-  } else {
-    console.log("Notification _Rejected!");
-    notification.close();
-  }
-});
-
-// on application notification close
-self.addEventListener("notificationclose", (e) => {
-  let notification = e.notification;
-  let action = e.action;
-
-  console.log("notification is closed", notification);
-});
-
-// push notification from server
-self.addEventListener("push", function (e) {
-  console.log("server notification data", e.data);
-  // generate the notification from server data
-  let payload = e.data
-    ? JSON.parse(e.data.text())
-    : {
-        title: "default Title for noitification",
-        body: "default -server push notification body",
-        //  icon: "/images/icons/icon-96x96.png",
-      };
-
-  let options = {
-    body: payload.body,
-    //  icon: "/images/icons/icon-96x96.png",
-    // badge: "/images/icons/icon-96x96.png",
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: "2",
-    },
-    actions: [
-      {
-        action: "open",
-        title: "Explore this new world",
-        //      icon: "/images/icons/icon-96x96.png",
-      },
-      {
-        action: "close",
-        title: "Close",
-        //icon: "/images/icons/icon-96x96.png",
-      },
-    ],
-  };
-  e.waitUntil(self.registration.showNotification(payload.title, options));
 });
