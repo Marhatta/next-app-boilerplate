@@ -3,7 +3,7 @@
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 
 
-const CACHE_VERSION = 63;
+const CACHE_VERSION = 64;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
