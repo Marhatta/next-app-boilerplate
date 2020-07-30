@@ -5,7 +5,7 @@ import { openDB, deleteDB, wrap, unwrap } from 'idb';
 
 var d = new Date();
 
-const CACHE_VERSION = 45;
+const CACHE_VERSION = 48;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -83,32 +83,29 @@ self.addEventListener("fetch", (event) => {
       fetch(event.request)
         .then(function (res) {
  
-          // console.log("res befor idb store" , res);
-          // let cpRes = res;
-          // if (res.status == 200) {
-          //   res.clone().json().then(data => {                          
-          //        db.add('apistore', {
-          //         url: event.request.url,
-          //         body: data,
-          //       });
+         // store  the request res to indexdb
+          if (res.status == 200) {
+            res.clone().json().then(data => {                          
+                 db.add('apistore', {
+                  url: event.request.url,
+                  body: data,
+                });
+             })
+           }
 
-          //   })
-          //  }
-
-          //  console.log("res after idb store" , res);
-
-          // return res;
-
+           return res;
+          
+           // chache store logic
        
           // console.log(
           //   "CACHING API DATA  ...TO LOCAL FROM NETWORK",
           //   event.request.url
           // );
-          return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
-            cache.put(event.request.url, res.clone());
-            // update the cache and return the network res;
-            return res;
-          });
+          // return caches.open(CACHE_APISTORE_NAME).then(function (cache) {
+          //   cache.put(event.request.url, res.clone());
+          //   // update the cache and return the network res;
+          //   return res;
+          // });
         // }
       })
       .catch(function (err) {
@@ -117,27 +114,26 @@ self.addEventListener("fetch", (event) => {
         console.log(" NETWORK FAIL API -> OFFLINE CACHE ");
 
 
-        //  db.get('apistore', event.request.url).then( res =>{
-        //   console.log("offline", res);
-        //   return res.body;
-          
-        //  })
+        // return from indexdb store
+         db.get('apistore', event.request.url).then( res =>{
 
-   
+          let generateRes = new Response(JSON.stringify(res.body), 
+          { "status" : 200 }) ;
 
-        return caches.match(event.request).then((res) => {
-          console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
-          if (res) {
+          console.log("offline", generateRes);
+          return new Response(JSON.stringify(res.body), 
+           { "status" : 200 })     
+         })
 
-            return res;
-
-            //index
-
-          } else {
-            console.log("No offline chache Res!");
-            return JSON.stringify({ message: "you are offline and no res data in cache" });
-          }
-        });
+        // return caches.match(event.request).then((res) => {
+        //   console.log("CHECKING FOR OFFLINE CACHE RESPONSE : ", res);
+        //   if (res) {
+        //     return res;
+        //       } else {
+        //          console.log("No offline chache Res!");
+        //       return JSON.stringify({ message: "you are offline and no res data in cache" });
+        //       }
+        // });
         
        }
       )
