@@ -2,7 +2,8 @@
 
 import { openDB, deleteDB, wrap, unwrap } from "idb";
 
-const CACHE_VERSION = 73;
+
+const CACHE_VERSION = 66;
 const CACHE_STATIC_NAME = `simple-cache-v${CACHE_VERSION}`;
 const CACHE_DYNAMIC_NAME = `dynamic-cache-v${CACHE_VERSION}`;
 const CACHE_APISTORE_NAME = `dynamic-cache-api-v${CACHE_VERSION}`;
@@ -65,11 +66,8 @@ self.addEventListener("fetch", (event) => {
   let reqUrl = event.request.url;
 
   console.log("REQ FROM SW :->URL :", reqUrl);
-  let isApiReq =
-    event.request.url === "https://jsonplaceholder.typicode.com/todos" ||
-    event.request.url === "https://jsonplaceholder.typicode.com/users";
-
-  if (isApiReq) {
+  const apiUrlPtr = 'jsonplaceholder'
+  if (isreqUrl.includes(apiUrlPtr)) {
     event.respondWith(
       fetch(event.request)
         .then(function (res) {
@@ -79,7 +77,7 @@ self.addEventListener("fetch", (event) => {
               .clone()
               .json()
               .then((data) => {
-                db.add("apistore", {
+                db.put("apistore", {
                   url: event.request.url,
                   body: data,
                 });
