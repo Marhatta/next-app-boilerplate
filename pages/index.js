@@ -37,7 +37,9 @@ const Home = ({ books }) => {
       <Link href="/newPage">
         <a>Go to new page</a>
       </Link>
+
       <br/>
+      
       <Link href="/user">
         <a>Go to user page</a>
       </Link>
